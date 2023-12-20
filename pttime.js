@@ -10,17 +10,19 @@
 Env = require('./env')
 
 const $ = new Env('PTTime 每日签到');
-const notify = $.isNode() ? require('./sendNotify') : '';
 const {log} = console;
 const Notify = 1; //0为关闭通知，1为打开通知,默认为1，默认关闭通知
 //////////////////////
 let ck = process.env.PTTIME_COOKIE;
 let ckArr = [];
 let msg = '';
+// 签到地址
 const URL = 'https://www.pttime.org/attendance.php?type=list'
 
+// 伪造referer
 const REFERER = 'https://www.pttime.org/index.php'
 
+// 伪造user-agent
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36'
 
 
@@ -60,7 +62,7 @@ function doSign(timeout = 3 * 1000) {
     return new Promise((resolve) => {
         let url = {
             url: URL,
-            headers: {"user-agent":USER_AGENT,"Cookie":`${data}`,"referer":REFERER},
+            headers: {"user-agent": USER_AGENT, "Cookie": `${data}`, "referer": REFERER},
         }
 
         $.get(url, async (err, response, data) => {
@@ -104,7 +106,7 @@ function doSign(timeout = 3 * 1000) {
                         day = '000'
                     }
                     $.log('连续签到天数：' + day);
-                    msg+= `\n⭐最后签到时间：${time}\n⭐今日魔力值：${todayMoli}\n⭐连续签到天数：${day}天\n⭐总魔力值：${moli}`;
+                    msg += `\n⭐最后签到时间：${time}\n⭐今日魔力值：${todayMoli}\n⭐连续签到天数：${day}天\n⭐总魔力值：${moli}`;
                     // 签到成功，返回提示信息
                 }
             } catch (e) {
@@ -143,10 +145,9 @@ async function Envs() {
 async function SendMsg(message) {
     if (!message)
         return;
-
     if (Notify > 0) {
         if ($.isNode()) {
-            var notify = require('./sendNotify');
+            const notify = require('./sendNotify');
             await notify.sendNotify($.name, message);
         } else {
             $.msg(message);
@@ -154,24 +155,4 @@ async function SendMsg(message) {
     } else {
         log(message);
     }
-}
-
-
-
-/**
- * 修改配置文件
- */
-function modify() {
-
-    fs.readFile('/ql/data/config/config.sh','utf8',function(err,dataStr){
-        if(err){
-            return log('读取文件失败！'+err)
-        }
-        else {
-            var result = dataStr.replace(/regular/g,string);
-            fs.writeFile('/ql/data/config/config.sh', result, 'utf8', function (err) {
-                if (err) {return log(err);}
-            });
-        }
-    })
 }
