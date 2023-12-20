@@ -7,6 +7,7 @@
  cookie获取方法:浏览器中登录网站后按F12 找到cookie全部复制出来, 多个cookie可以使用@或者\n分割
 */
 Env = require('./env')
+
 const $ = new Env('PTTime');
 const notify = $.isNode() ? require('./sendNotify') : '';
 const {log} = console;
