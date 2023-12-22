@@ -107,11 +107,14 @@ function doSign(timeout = 3 * 1000) {
             }
             $.log('连续签到天数：' + day);
             if(data.indexOf('今日签到成功') > 0) {
+                $.log('今日签到成功')
                 msg += '\n⭐今日签到成功'
                 msg += `\n⭐最后签到时间：${time}\n⭐签到魔力值：${todayMoli}\n⭐连续签到天数：${day}天\n⭐总魔力值：${moli}`;
             } else if(data.indexOf('签到中止') > 0) {
+                $.log('今日签到中止')
                 msg += '\n⭐今日签到中止'
             } else {
+                $.log('今日签到完成')
                 msg += '\n⭐今日签到完成'
                 msg += `\n⭐最后签到时间：${time}\n⭐签到魔力值：${todayMoli}\n⭐连续签到天数：${day}天\n⭐总魔力值：${moli}`;
             }
