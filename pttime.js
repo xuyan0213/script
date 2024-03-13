@@ -16,15 +16,11 @@ const Notify = 1; //0为关闭通知，1为打开通知,默认为1，默认关�
 //////////////////////
 let ck = process.env.PTTIME_COOKIE;
 let ckArr = [];
+let uid = process.env.PTTIME_UID
+let uidArr = [];
 let msg = '';
 // 签到地址
-const URL = 'https://www.pttime.org/attendance.php?type=list'
-
-// 伪造referer
-const REFERER = 'https://www.pttime.org/index.php'
-
-// 伪造user-agent
-const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36'
+const URL = 'https://script.xy213.cn/api/sign/pttime'
 
 
 !(async () => {
@@ -61,13 +57,8 @@ const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
  */
 function doSign(timeout = 3 * 1000) {
     let moli = ''
-    return axios(URL, {
+    return axios(URL+'?cookie=' + data + '&uid=' + uid, {
         method: 'get',
-        headers: {
-            'User-Agent': USER_AGENT,
-            'Cookie': data,
-            'Referer': REFERER
-        },
         responseType: 'document'
     }).then(function (response) {
         let data = response.data.replace(/[\r\n]/g, '')
@@ -144,6 +135,19 @@ async function Envs() {
     } else {
         log(`\n 【${$.name}】：未填写变量`)
         return;
+    }
+    if (uid) {
+        if (uid.indexOf("@") != -1) {
+            uid.split("@").forEach((item) => {
+                uid.push(item);
+            });
+        } else if (uid.indexOf("\n") != -1) {
+            uid.split("\n").forEach((item) => {
+                uidArr.push(item);
+            });
+        } else {
+            uidArr.push(uid);
+        }
     }
 
     return true;
