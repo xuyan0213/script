@@ -106,9 +106,9 @@ function doSign(timeout = 3 * 1000) {
             }
             $.log('连续签到天数：' + day);
             //总签等级 查询总签到等级：出现的位置, 并截取后面title="的值
-            const totalSignLevelString =  data.substring(data.indexOf('总签到等级：') + 6, data.indexOf('总签到等级：') + 40);
-            let totalSignLevel = totalSignLevelString.substring(totalSignLevelString.indexOf('title="') + 7, totalSignLevelString.indexOf('">'));
-            let totalSignLevelLogo = totalSignLevelString.substring(totalSignLevelString.indexOf('">') + 2, totalSignLevelString.indexOf('</b>'));
+            const totalSignLevelString =  data.substring(data.indexOf('总签到等级：') + 6, data.indexOf('总签到等级：') + 31);
+            let totalSignLevel = totalSignLevelString.substring(totalSignLevelString.indexOf('title=\'') + 7, totalSignLevelString.indexOf('\'>'));
+            let totalSignLevelLogo = totalSignLevelString.substring(totalSignLevelString.indexOf('\'>') + 2, totalSignLevelString.indexOf('</b>'));
             if (totalSignLevel) {
             } else {
                 totalSignLevel = '无'
@@ -118,11 +118,11 @@ function doSign(timeout = 3 * 1000) {
             } else {
              totalSignLevelLogo = ''
             }
-            $.log('总签到等级：' + totalSignLevel + ' ' + totalSignLevelLogo);
+            $.log('总签到等级：' + totalSignLevel);
             //连签等级
             const cSignLevelString =  data.substring(data.indexOf('连续等级：') + 5, data.indexOf('连续等级：') + 40);
-           let cSignLevel = cSignLevelString.substring(cSignLevelString.indexOf('title="') + 7, cSignLevelString.indexOf('">'));
-            let cSignLevelLogo = cSignLevelString.substring(cSignLevelString.indexOf('">') + 2, cSignLevelString.indexOf('</b>'));
+           let cSignLevel = cSignLevelString.substring(cSignLevelString.indexOf('title=\'') + 7, cSignLevelString.indexOf('\'>'));
+            let cSignLevelLogo = cSignLevelString.substring(cSignLevelString.indexOf('\'>') + 2, cSignLevelString.indexOf('</b>'));
             if (cSignLevel) {
             } else {
                 cSignLevel = '无'
@@ -132,24 +132,24 @@ function doSign(timeout = 3 * 1000) {
             } else {
              cSignLevelLogo = ''
             }
-            $.log('连续签到等级：' + cSignLevel + ' ' + cSignLevelLogo);
+            $.log('连续签到等级：' + cSignLevel);
             if(data.indexOf('今日签到成功') > 0) {
                 $.log('今日签到成功')
                 msg += '\n⭐今日签到成功'
-                msg += `\n⭐总签到等级：${totalSignLevel} ${totalSignLevelLogo}\n`
-                msg += `\n⭐连续签到等级：${cSignLevel} ${cSignLevelLogo}\n`
-                msg += `\n⭐第一次签到时间：${firstSignTime}\n`
-                msg += `\n⭐最后签到时间：${time}\n⭐签到魔力值：${todayMoli}\n⭐连续签到天数：${day}天\n⭐总魔力值：${moli}`;
+                msg += `\n⭐${totalSignLevel} ${totalSignLevelLogo}`
+                msg += `\n⭐${cSignLevel} ${cSignLevelLogo}`
+                msg += `\n⭐首签：${firstSignTime}`
+                msg += `\n⭐今日：${time}\n⭐签到魔力值：${todayMoli}\n⭐连续签到天数：${day}天\n⭐总魔力值：${moli}`;
             } else if(data.indexOf('签到中止') > 0) {
                 $.log('今日签到中止')
                 msg += '\n⭐今日签到中止'
             } else {
                 $.log('今日签到完成')
                 msg += '\n⭐今日签到成功'
-                msg += `\n⭐总签到等级：${totalSignLevel} ${totalSignLevelLogo}\n`
-                msg += `\n⭐连续签到等级：${cSignLevel} ${cSignLevelLogo}\n`
-                msg += `\n⭐第一次签到时间：${firstSignTime}\n`
-                msg += `\n⭐最后签到时间：${time}\n⭐签到魔力值：${todayMoli}\n⭐连续签到天数：${day}天\n⭐总魔力值：${moli}`;
+                msg += `\n⭐${totalSignLevel} ${totalSignLevelLogo}`
+                msg += `\n⭐${cSignLevel} ${cSignLevelLogo}`
+                msg += `\n⭐首签：${firstSignTime}`
+                msg += `\n⭐今日：${time}\n⭐签到魔力值：${todayMoli}\n⭐连续签到天数：${day}天\n⭐总魔力值：${moli}`;
             }
         } else if(data.indexOf('高频刷新签到') > 0) {
          $.log('高频刷新签到');
