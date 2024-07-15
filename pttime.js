@@ -62,7 +62,7 @@ function doSign(timeout = 3 * 1000) {
         responseType: 'document'
     }).then(function (response) {
         let data = response.data.replace(/[\r\n]/g, '')
-        if (data.indexOf('class="main"') > 0) {
+        if (data.indexOf('class="embedded"') > 0) {
             
             let regex = /使用\&说明<\/a>\]\:(.*?)\[/;
             let match = data.match(regex);
@@ -73,6 +73,14 @@ function doSign(timeout = 3 * 1000) {
             moli = moli.replace(/<a.*?>(.*?)<\/a>/g, '')
             $.log('总魔力值:' + moli)
             //查询第一次"时间"出现的位置,并截取后面19个字符
+            //第一次签到时间
+            let firstSignIndex = data.indexOf('第一次签到：')
+            let firstSignTime = data.substring(firstSignIndex + 6, firstSignIndex + 25)
+            if (firstSignTime) {
+            } else {
+                firstSignTime = '0000-00-00 00:00:00'
+            }
+            $.log('第一次签到时间：' + firstSignTime);
             let timeIndex = data.indexOf('时间：')
             let time = data.substring(timeIndex + 3, timeIndex + 22)
             if (time) {
@@ -109,7 +117,12 @@ function doSign(timeout = 3 * 1000) {
                 msg += '\n⭐今日签到完成'
                 msg += `\n⭐最后签到时间：${time}\n⭐签到魔力值：${todayMoli}\n⭐连续签到天数：${day}天\n⭐总魔力值：${moli}`;
             }
-        } else {
+        } elseif(data.indexOf('拒绝访问：高频刷新签到') > 0) {
+         $.log('高频刷新签到');
+            console.log('高频刷新签到！！\n');
+            msg += '\n 高频刷新签到，小心封号!'
+        }else{
+            
             $.log('签到失败');
             console.log('签到失败失败！！\n');
             msg += '\n 签到失败!'
