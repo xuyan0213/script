@@ -10,3 +10,7 @@ PTTime 每日签到
 4. 增加PTTIME_UID变量，就是你账号的UID。
 
 问一下有需要自动补签功能的吗?可以先判断是否需要补签,先补签再签到
+
+有问题联系下面WX
+![qrcode](https://github.com/user-attachments/assets/a1a9d618-290e-4608-9a93-c26034f1eab4)
+
