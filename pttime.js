@@ -145,7 +145,7 @@ function doSign(timeout = 3 * 1000) {
                 msg += '\n⭐今日签到中止'
             } else {
                 $.log('今日签到完成')
-                msg += '\n⭐今日签到成功'
+                msg += '\n⭐今日签到完成'
                 msg += `\n⭐${totalSignLevel} ${totalSignLevelLogo}`
                 msg += `\n⭐${cSignLevel} ${cSignLevelLogo}`
                 msg += `\n⭐首签：${firstSignTime}`
